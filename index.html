@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funkcje zadania</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: black;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: gray;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Funkcje - zadania</h1>
+
+        <div id="circleArea"></div>
+        <hr>
+
+        <div id="rectangleArea"></div>
+        <hr>
+
+        <div id="randomNumbers"></div>
+        <hr>
+
+        <div id="rentCost"></div>
+    </div>
+
+    <div class="footer">
+        © Me XXI c.
+    </div>
+
+    <script>
+        const generateRandom = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+        const rentCost = days => {
+            let costPerDay = days === 1 ? 200 : days <= 3 ? 180 : days <= 7 ? 160 : 150;
+            return days * costPerDay - Math.floor(days / 7) * 50;
+        };
+
+        const circleArea = radius => radius > 0 ? `Pole koła o promieniu ${radius} wynosi: ${(Math.PI * radius * radius).toFixed(2)}` : "Błędne dane dla pola koła";
+
+        const rectangleArea = (a, b) => `Pole prostokąta o bokach: ${a} i ${b} wynosi: ${a * b}`;
+
+        const drawRandomNumbers = () => {
+            let min = parseInt(prompt("Podaj minimalną wartość dla losowych liczb:", "1"));
+            let max = parseInt(prompt("Podaj maksymalną wartość dla losowych liczb:", "20"));
+            let numbers = Array.from({ length: 10 }, () => generateRandom(min, max));
+            document.getElementById('randomNumbers').innerHTML = `
+                <h2>${numbers.filter(n => n > 10).length >= 5 ? 'Udało się' : 'Niestety nie'}</h2>
+                <p>Wylosowane liczby: ${numbers.join(", ")}</p>
+            `;
+        };
+
+        const calculateRentCost = () => {
+            let days = parseInt(prompt("Podaj liczbę dni wynajmu pokoju:", "1"));
+            document.getElementById('rentCost').innerHTML = !isNaN(days) && days > 0 ? `<h2>Koszt wynajmu na ${days} dni wynosi: ${rentCost(days)} zł</h2>` : `<h2>Podano niepoprawną liczbę dni</h2>`;
+        };
+
+        window.onload = () => {
+            const radius = parseFloat(prompt("Podaj promień koła:"));
+            const a = parseFloat(prompt("Podaj bok a prostokąta:"));
+            const b = parseFloat(prompt("Podaj bok b prostokąta:"));
+            document.getElementById('circleArea').innerHTML = `<h2>${circleArea(radius)}</h2>`;
+            document.getElementById('rectangleArea').innerHTML = `<h2>${rectangleArea(a, b)}</h2>`;
+            drawRandomNumbers();
+            calculateRentCost();
+        };
+    </script>
+</body>
+</html>
